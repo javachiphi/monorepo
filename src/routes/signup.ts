@@ -38,7 +38,7 @@ router.post(
         id: user.id,
         email: user.email,
       },
-      'asdf'
+      process.env.jwt!
     ); // ! tells typescript that we are sure that this value is defined
 
     //store it on session object

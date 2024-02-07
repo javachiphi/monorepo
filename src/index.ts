@@ -33,6 +33,10 @@ app.all('*', async (req, res) => {
 app.use(errorHandler);
 
 const start = async () => {
+  if (!process.env.jwt) {
+    throw new Error('JWT_KEY must be defined');
+  }
+
   try {
     // need to connect to cluster IP address since our db lives in a pod
     // mongo will automatically create db for us under the name auth
