@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import { OrderStatus } from '@javachiphi-tix/common';
+import { TicketDoc } from './ticket';
 
 interface OrderAttrs {
   userId: string;
