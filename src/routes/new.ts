@@ -13,6 +13,8 @@ import { Ticket } from '../models/ticket';
 
 const router = express.Router();
 
+const EXPIRATION_WINDOW_SECONDS = 15 * 60; // 15 minutes
+
 router.post(
   '/api/orders',
   requireAuth,
@@ -43,11 +45,22 @@ router.post(
     }
     // calculate an expiration date for this order
 
+    const expiration = new Date();
+    expiration.setSeconds(expiration.getSeconds() + EXPIRATION_WINDOW_SECONDS); // 15 minutes
+
     // build the order and save it to the database
 
-    // publish an event saying that an order was created
+    const order = Order.build({
+      userId: req.currentUser!.id,
+      status: OrderStatus.Created,
+      expiresAt: expiration,
+      ticket,
+    });
 
-    res.send({});
+    await order.save();
+
+    // publish an event saying that an order was created
+    res.status(201).send(order);
   }
 );
 
