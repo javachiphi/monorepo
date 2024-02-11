@@ -18,7 +18,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@javachiphi-tix/common": "^1.0.9",
+    "@javachiphi-tix/common": "^1.0.10",
     "@types/bull": "^4.10.0",
     "bull": "^4.12.2",
     "node-nats-streaming": "^0.3.2",
