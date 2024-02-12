@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-const LandingPage = ({ currentUser, tickets }) => {
+const LandingPage = ({ currentUser, tickets = [] }) => {
   const ticketList = tickets.map((ticket) => {
     return (
       <tr key={ticket.id}>
@@ -18,24 +18,34 @@ const LandingPage = ({ currentUser, tickets }) => {
   return (
     <div>
       <h1>Tickets</h1>
-      <table className="table">
-        <thread>
-          <tr>
-            <th>Title</th>
-            <th>Price</th>
-            <th>Link</th>
-          </tr>
-        </thread>
-        <tbody>{ticketList}</tbody>
-      </table>
+      {tickets.length > 0 ? (
+        <table className="table">
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Price</th>
+              <th>Link</th>
+            </tr>
+          </thead>
+          <tbody>{ticketList}</tbody>
+        </table>
+      ) : (
+        <p>No tickets available.</p>
+      )}
     </div>
   );
 };
 
 //server side
 LandingPage.getInitialProps = async (context, client, currentUser) => {
-  const { data } = await client.get('/api/tickets');
-  return { tickets: data };
+  try {
+    const { data } = await client.get('/api/tickets');
+    return { tickets: data };
+  } catch (err) {
+    console.error('error fetching', error);
+
+    return { tickets: [] };
+  }
 };
 
 export default LandingPage;
