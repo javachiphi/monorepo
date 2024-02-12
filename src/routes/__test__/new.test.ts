@@ -2,6 +2,7 @@ import request from 'supertest';
 import { app } from '../../app';
 import mongoose from 'mongoose';
 import { Order } from '../../models/order';
+import { Payment } from '../../models/payment';
 import { OrderStatus } from '@javachiphi-tix/common';
 import { stripe } from '../../stripe';
 
@@ -78,8 +79,18 @@ it('returns a 204 with valid inputs', async () => {
     })
     .expect(201);
 
+  const charge = await stripe.charges.create.mock.results[0].value;
   const chargeOptions = (stripe.charges.create as jest.Mock).mock.calls[0][0];
+
+  // console.log('stripe.charges.create as jest.Mock).mock', firstCallResult);
   expect(chargeOptions.source).toEqual('tok_visa');
   expect(chargeOptions.amount).toEqual(20 * 100);
   expect(chargeOptions.currency).toEqual('usd');
+
+  const payment = await Payment.findOne({
+    orderId: order.id,
+    stripeId: charge.id,
+  });
+
+  expect(payment).not.toBeNull();
 });
