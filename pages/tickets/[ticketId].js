@@ -3,7 +3,7 @@ import useRequest from '../../hooks/use-request';
 const TicketShow = ({ ticket }) => {
   console.log('ticket', ticket);
   const { doRequest, errors } = useRequest({
-    url: 'api/orders',
+    url: '/api/orders',
     method: 'post',
     body: {
       ticketId: ticket.id,
