@@ -50,7 +50,7 @@ apiVersion: v1
 kind: Service
 metadata:
   annotations:
-    kubernetes.digitalocean.com/load-balancer-id: 'a7242841f8d8b4afaa45b1fa246dec2e'
+    kubernetes.digitalocean.com/load-balancer-id: 'a2e8674fdc51a4ae99789b0c4caf7ab4'
     service.beta.kubernetes.io/do-loadbalancer-enable-proxy-protocol: 'true'
     service.beta.kubernetes.io/do-loadbalancer-hostname: 'www.sophjust.xyz'
   labels:
